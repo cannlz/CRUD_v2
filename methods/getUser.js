@@ -22,7 +22,8 @@ function getUser(req, resp) {
 
             // Ищем в бд пользователя с данным ID
             let response = await data.getUserByIdDb(userObj);
-            if (response.length > 0) {
+            
+            if (response !== undefined) {
                 resp.writeHead(200);
                 resp.end(JSON.stringify(response));
                 //Если не нашли, выдаём 404

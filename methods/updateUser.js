@@ -21,7 +21,7 @@ function updateUser(req, resp) {
         let response = await data.updateUserDb(userObj);
         
         // Если нашли, то обновляем данные
-        if (response.length > 0) {
+        if (response !== undefined) {
             resp.writeHead(201);
             resp.end(JSON.stringify(response));
 

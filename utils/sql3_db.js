@@ -54,7 +54,7 @@ module.exports = {
             return null;
         }
         // Если нашли, возвращаем обновлённые данные
-        return this.getUserByIdDb(user.id);
+        return await this.getUserByIdDb(user);
     },
 
     // Удаление пользователя
