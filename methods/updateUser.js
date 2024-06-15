@@ -17,18 +17,26 @@ function updateUser(req, resp) {
             userObj[keyValue[0]] = keyValue[1];
         });
 
-        // Ищем индекс пользователя с полученным id в бд
-        let response = await data.updateUserDb(userObj);
-        
-        // Если нашли, то обновляем данные
-        if (response !== undefined) {
-            resp.writeHead(201);
-            resp.end(JSON.stringify(response));
+        // Проверка возраста на наличие исключительно цифр
+        if (!isNaN(userObj.age) && !isNaN(parseFloat(userObj.age))) {
 
-            // Иначе кидаем ошибку 404
+            // Ищем индекс пользователя с полученным id в бд
+            let response = await data.updateUserDb(userObj);
+            
+            // Если нашли, то обновляем данные
+            if (response !== undefined) {
+                resp.writeHead(201);
+                resp.end(JSON.stringify(response));
+
+                // Иначе кидаем ошибку 404
+            } else {
+                resp.writeHead(404);
+                resp.end(JSON.stringify({message: "User not found"}));
+            }
+            // Если ввели число с буквой(20 лет, 21 год), то ошибка
         } else {
-            resp.writeHead(404);
-            resp.end(JSON.stringify({message: "User not found"}));
+            resp.writeHead(400);
+            resp.end(JSON.stringify({message: "Age is not number"}));
         }
     });
 }
